@@ -1,0 +1,9 @@
+{
+  "$schema": "https://on.cypress.io/cypress.schema.json",
+  "baseUrl": "https://stripcash.com/",
+  "testFiles": "**/*.feature",
+  "video": false,
+  "viewportWidth": 1200,
+  "viewportHeight": 768,
+  "experimentalSessionAndOrigin": true
+}

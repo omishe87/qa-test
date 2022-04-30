@@ -1,0 +1,9 @@
+{
+  "cucumberautocomplete.steps": ["cypress/support/step_definitions/*.js"],
+  "cucumberautocomplete.stepRegExSymbol": "'",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[feature]": {
+    "editor.defaultFormatter": "alexkrechik.cucumberautocomplete"
+  },
+  "editor.formatOnSave": true
+}
