@@ -16,7 +16,7 @@ When('I go to default url', () => {
   cy.get('.url--1isxt').invoke('text').as('fromClipboard')
 
   cy.get('@fromClipboard').then((f) => {
-    cy.origin('https://ru.superchat.live/', { args: { f } }, ({ f }) => {
+    cy.origin('https://superchat.com/', { args: { f } }, ({ f }) => {
       cy.visit(f)
     }).wait(500)
   })
