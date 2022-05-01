@@ -12,7 +12,7 @@ Login functionality is added to /cypress/support/commands.js + adding new comand
 
 Code for each step is in /cypress/support/step_definitions/countclicks.js
 
-To add user's credentials change /cypress/fixture/user.json
+## To add user's credentials change /cypress/fixture/user.json
 
 ## **Run commands**
 
