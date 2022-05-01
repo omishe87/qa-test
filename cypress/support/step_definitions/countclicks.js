@@ -1,21 +1,16 @@
-// const checkClicks = () => {
-//   cy.visit('analytics/statistics')
-//   cy.get('[type=submit]').click()
-//   cy.get('[data-row-index="1"][data-column-index ="2"]').invoke('text')
-// }
+import { recurse } from 'cypress-recurse'
 
-// Then('I see amount of click on analytic page', () => {
-//   expect(clicksBefore).not.to.be.empty
-// })
-
-Then('new click is shown in report', () => {
+const checkClicks = () => {
   cy.visit('analytics/statistics')
   cy.get('[type=submit]').click()
-  cy.get('[data-row-index="1"][data-column-index ="2"]')
+  return cy
+    .get('[data-last-row="true"][data-column-index ="2"]')
     .invoke('text')
     .then(parseInt)
-    .as('before')
+}
+let clicksBefore
 
+When('I go to default url', () => {
   cy.visit('overview/dashboard')
 
   cy.get('.url--1isxt').invoke('text').as('fromClipboard')
@@ -23,17 +18,26 @@ Then('new click is shown in report', () => {
   cy.get('@fromClipboard').then((f) => {
     cy.origin('https://ru.superchat.live/', { args: { f } }, ({ f }) => {
       cy.visit(f)
-    }).wait(4000)
+    }).wait(500)
   })
+})
 
-  cy.visit('analytics/statistics').wait(6000)
-  cy.get('[type=submit]').click()
+Then('I see amount of click on analytic page', () => {
+  checkClicks().then((clicks) => {
+    clicksBefore = clicks
+  })
+})
 
-  cy.get('[data-row-index="1"][data-column-index ="2"]')
-    .invoke('text')
-    .then(parseInt)
-    .as('after')
-    .then(function () {
-      expect(this.after).to.be.eq(this.before + 1)
-    })
+Then('new click is shown in report', () => {
+  recurse(
+    () => checkClicks(),
+    (n) => {
+      expect(n).to.be.eq(clicksBefore + 1)
+    },
+    {
+      limit: 30,
+      timeout: 60000,
+      delay: 2000
+    }
+  ).should('eq', clicksBefore + 1)
 })
